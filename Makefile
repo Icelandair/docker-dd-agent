@@ -1,5 +1,5 @@
 ifndef COMPONENT
-	COMPONENT := kong-app
+	COMPONENT := dd-agent
 endif
 
 ifndef PROJECT_NAME
