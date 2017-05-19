@@ -27,6 +27,8 @@ RUN mv /etc/dd-agent/datadog.conf.example /etc/dd-agent/datadog.conf \
  && sed -i 's/AGENTUSER="dd-agent"/AGENTUSER="root"/g' /etc/init.d/datadog-agent \
  && rm /etc/dd-agent/conf.d/network.yaml.default \
  || chmod +x /etc/init.d/datadog-agent
+ 
+RUN apt-get install -y iputils-ping curl net-tools tcpdump
 
 # Add Docker check
 COPY conf.d/docker_daemon.yaml /etc/dd-agent/conf.d/docker_daemon.yaml
