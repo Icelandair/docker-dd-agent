@@ -29,7 +29,7 @@ RUN mv /etc/dd-agent/datadog.conf.example /etc/dd-agent/datadog.conf \
  || chmod +x /etc/init.d/datadog-agent
 
 RUN apt-get update
-RUN apt-get install -y iputils-ping curl net-tools tcpdump dnsutils telnet iputils
+RUN apt-get install -y iputils-ping curl net-tools tcpdump dnsutils telnet
 
 # Add Docker check
 COPY conf.d/docker_daemon.yaml /etc/dd-agent/conf.d/docker_daemon.yaml
