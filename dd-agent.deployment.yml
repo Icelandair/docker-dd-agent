@@ -20,7 +20,7 @@ spec:
             protocol: UDP
         env:
           - name: DD_APM_ENABLED
-            value: true
+            value: "true"
           - name: API_KEY
             valueFrom:
               secretKeyRef:
