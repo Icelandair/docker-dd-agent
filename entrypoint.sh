@@ -1,6 +1,8 @@
 #!/bin/bash
 #set -e
 
+##### Add DNS servers to resolv.conf ######
+echo -e "nameserver 8.8.8.8 8.8.4.4\n$(cat /etc/resolv.conf)" > /etc/resolv.conf
 
 ##### Core config #####
 

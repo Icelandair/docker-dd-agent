@@ -31,9 +31,6 @@ RUN mv /etc/dd-agent/datadog.conf.example /etc/dd-agent/datadog.conf \
 RUN apt-get update
 RUN apt-get install -y iputils-ping curl net-tools tcpdump dnsutils telnet
 
-# ADD Google DNS
-RUN echo -e "nameserver 8.8.8.8 8.8.4.4\n$(cat /etc/resolv.conf)" > /etc/resolv.conf
-
 # Add Docker check
 COPY conf.d/docker_daemon.yaml /etc/dd-agent/conf.d/docker_daemon.yaml
 
