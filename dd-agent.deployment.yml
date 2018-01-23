@@ -10,6 +10,7 @@ spec:
         app: dd-agent
       name: dd-agent
     spec:
+      serviceAccountName: datadog
       containers:
       - image: TPL_DOCKER_IMAGE
         imagePullPolicy: Always
@@ -51,3 +52,48 @@ spec:
         - hostPath:
             path: /sys/fs/cgroup
           name: cgroups
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: datadog
+rules:
+- nonResourceURLs:
+  - "/version"  # Used to get apiserver version metadata
+  - "/healthz"  # Healthcheck
+  verbs: ["get"]
+- apiGroups: [""]
+  resources:
+    - "nodes"
+    - "namespaces"  #
+    - "events"      # Cluster events + kube_service cache invalidation
+    - "services"    # kube_service tag
+  verbs: ["get", "list"]
+- apiGroups: [""]
+  resources:
+    - "configmaps"
+  resourceNames: ["datadog-leader-elector"]
+  verbs: ["get", "delete", "update"]
+- apiGroups: [""]
+  resources:
+    - "configmaps"
+  verbs: ["create"]
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: datadog
+automountServiceAccountToken: true
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: datadog
+subjects:
+- kind: ServiceAccount
+  name: datadog
+  namespace: default
+roleRef:
+  kind: ClusterRole
+  name: datadog
+  apiGroup: rbac.authorization.k8s.io
